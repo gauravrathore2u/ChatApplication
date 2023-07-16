@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState} from 'react'
 import { Dialog } from '@mui/material'
 import {CiMenuKebab} from 'react-icons/ci'
 import {FiSettings} from 'react-icons/fi'
@@ -32,15 +32,6 @@ const LoginDialog = () => {
     const [userInfo, setUserInfo] = useState({});
     const loginInfo = useSelector((state)=>state.login);
     const activeUsers = useSelector((state)=>state.activeUsers);
-    
-
-    // useEffect(()=>{
-    //     socket();
-    // },[])
-
-    // useEffect(()=>{
-        
-    // },[loginInfo]);
     
     
     const onLoginSuccess = async (resp)=>{

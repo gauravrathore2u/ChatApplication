@@ -1,10 +1,9 @@
 //Library import
 import React, { useEffect } from "react";
-import { AppBar, Toolbar, styled, useAutocomplete } from "@mui/material";
+import { AppBar, Toolbar, styled } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../redux/loginSlice";
-import {io} from 'socket.io-client'
 import { setActiveUsers } from '../redux/activeUsersSlice';
+import socketConn from "../socketConn/socketConn";
 
 //components import
 import LoginDialog from "./account/LoginDialog";
@@ -22,23 +21,15 @@ const Messenger = () => {
 
   const dispatch = useDispatch();
 
-  const socketConn = io('ws://localhost:9000');
-
   useEffect(()=>{
     socketConn.emit('addUsers', user);
-        socketConn.on('getUsers', (users)=>{
-            dispatch(setActiveUsers(users));
-        })
+    socketConn.on('getUsers', (users)=>{
+        dispatch(setActiveUsers(users));
+    })
   },[user]);
 
   return (
     <div>
-        {/* <>
-          <Header>
-            <Toolbar />
-          </Header>
-          <ChatDialog />
-        </> */}
       {user.email_verified ? (
         <>
           <Header>

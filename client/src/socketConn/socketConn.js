@@ -1,8 +1,5 @@
 import {io} from 'socket.io-client'
 
+const socketConn = io('ws://localhost:9000');
 
-const socket = ()=>{
-    io('ws://localhost:9000');
-}
-
-export default socket;
+export default socketConn;

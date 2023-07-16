@@ -8,7 +8,7 @@ const io = new Server(9000, {
 })
 
 
-let users = [];
+var users = [];
 
 const addUser = (userData, socketId)=>{
     (!users.some((user)=> user.email === userData.email) && userData.email !== '') && users.push({...userData, socketId})
@@ -16,7 +16,7 @@ const addUser = (userData, socketId)=>{
 
 
 const getUser = (userEmail)=>{
-    console.log(users);
+    // console.log(users);
     return users.find((user)=> user.email === userEmail);
 }
 
@@ -32,7 +32,7 @@ io.on('connection', (socket)=>{
     socket.on('sendMessage', (data)=>{
         const user = getUser(data.recieverEmail);
         // console.log(data);
-        console.log(user);
+        // console.log(user);
         io.to(user.socketId).emit('getMessage', data);
     })
 })

@@ -4,7 +4,7 @@ import {FiMoreVertical} from 'react-icons/fi'
 import {BsEmojiSmile} from 'react-icons/bs'
 import {GrAttachment} from 'react-icons/gr'
 import {BsFillMicFill} from 'react-icons/bs'
-import {io} from 'socket.io-client'
+import socketConn from '../../socketConn/socketConn'
 
 
 import { useSelector } from 'react-redux'
@@ -12,11 +12,11 @@ import { getConversation, getMessages, newMessage, uploadFile } from '../../serv
 import Message from './Message'
 
 const ChatBox = () => {
-    const socketConn = io('ws://localhost:9000');
+    // const socketConn = io('ws://localhost:9000');
     const loggedInUser = useSelector((state)=>state.loginInfo);
     const selectedUser = useSelector((state)=>state.selectedUser);
     const activeUsers = useSelector((state)=>state.activeUsers.activeUsers);
-    console.log(activeUsers);
+    // console.log(activeUsers);
     const [inputValue, setInputValue] = useState("");
     const [conversation, setConversation] = useState({});
     const [messages, setMessages] = useState([]);
@@ -29,7 +29,7 @@ const ChatBox = () => {
     useEffect(()=>{
         const getConversationDetails = async ()=>{
             let data = await getConversation({senderEmail: loggedInUser.email, recieverEmail: selectedUser.email});
-            console.log(data);
+            // console.log(data);
             setConversation(data);
 
             if(data._id){
@@ -67,8 +67,6 @@ const ChatBox = () => {
             }
         }
 
-            try{
-
                 socketConn.emit('sendMessage', message);
 
                 await newMessage(message);
@@ -85,10 +83,6 @@ const ChatBox = () => {
                 setFile("");
                 setImageUrl("");
                 setNewMessageFlag((prev)=> !prev);
-            }
-            catch(err){
-                console.log("something went wrong");
-            }
 
         }
     }
@@ -106,7 +100,7 @@ const ChatBox = () => {
     useEffect(()=>{
         incomingMessage && conversation?.members?.includes(incomingMessage.senderEmail) &&
             setMessages((prev)=>[...prev, incomingMessage]);
-    },[incomingMessage, conversation])
+    },[incomingMessage, newMessageFlag])
 
     useEffect(()=>{
         const setImage = async ()=>{
@@ -123,7 +117,7 @@ const ChatBox = () => {
     },[file])
 
     const onFileChange = (e)=>{
-        console.log(e);
+        // console.log(e);
         setFile(e.target.files[0]);
         setInputValue(e.target.files[0].name);
     }
